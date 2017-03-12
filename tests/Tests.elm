@@ -97,28 +97,19 @@ stateModule =
                 Expect.equal (.joke (Tuple.first App.State.init)) (NotAsked)
         , test "App.State.update when a GetRandomJoke message is received, joke must be set to Loading" <|
             \() ->
-                let
-                    joke =
-                        App.State.init
-                            |> Tuple.first
-                            |> App.State.update GetRandomJoke
-                            |> Tuple.first
-                            |> .joke
-                in
-                    Expect.equal joke Loading
+                App.State.init
+                    |> Tuple.first
+                    |> App.State.update GetRandomJoke
+                    |> Tuple.first
+                    |> .joke
+                    |> Expect.equal Loading
         , test "App.State.update when a JokeResponse message is received, the function must return Cmd.none" <|
             \() ->
-                let
-                    data =
-                        Success (Joke 268 "test")
-
-                    cmd =
-                        App.State.init
-                            |> Tuple.first
-                            |> App.State.update (JokeResponse data)
-                            |> Tuple.second
-                in
-                    Expect.equal cmd Cmd.none
+                App.State.init
+                    |> Tuple.first
+                    |> App.State.update (JokeResponse (Success (Joke 268 "test")))
+                    |> Tuple.second
+                    |> Expect.equal Cmd.none
         ]
 
 
